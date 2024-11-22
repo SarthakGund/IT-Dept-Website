@@ -34,14 +34,14 @@ const Layout: React.FC<Layoutprops> = (props) => {
             </div>
           </div>
         </nav>
-        {/* <div className=" border flex justify-center bg-black text-white">
+        <div className=" border-y flex justify-center bg-black text-white">
           <div className="flex gap-[32px] text-[18px] py-[3px] mb-[4px]">
-            <div className="cursor-pointer hover:text-gray-400">Home</div>
-            <div className="cursor-pointer">About Us</div>
-            <div className="cursor-pointer">Achievements</div>
-            <div className="cursor-pointer">Placements</div>
+            <div className="cursor-pointer hover:text-gray-400"><Link href='/'>Home</Link></div>
+            <div className="cursor-pointer hover:text-gray-400"><Link href='/aboutus'>About Us</Link></div>
+            <div className="cursor-pointer hover:text-gray-400"><Link href='/achievements'>Achievements</Link></div>
+            <div className="cursor-pointer hover:text-gray-400"><Link href='/placements'>Placements</Link></div>
           </div>
-        </div> */}
+        </div>
         <div className=" flex justify-center bg-black text-white border-y-[2px] border-[#333333]">
       </div>  
 
