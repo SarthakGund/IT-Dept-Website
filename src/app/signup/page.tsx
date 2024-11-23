@@ -11,7 +11,7 @@ export default function Page() {
     const [error, setError] = useState('');
 
     const handleSubmit = async(e) => {
-        e.preventDefault(); //this is to prevent reloading on submit duhh.
+        //e.preventDefault(); //this is to prevent reloading on submit duhh.
         if(!username || !email || !password){
             setError("All fields are necessary.")
             return;
