@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { toast } from "react-toastify";
+import { useRouter } from 'next/navigation';
 
 export default function Page() {
     const [username, setUsername] = useState('');
@@ -10,13 +11,32 @@ export default function Page() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
+    const router = useRouter();
+
     const handleSubmit = async(e) => {
-        //e.preventDefault(); //this is to prevent reloading on submit duhh.
+        e.preventDefault(); //this is to prevent reloading on submit duhh.
         if(!username || !email || !password){
             setError("All fields are necessary.")
             return;
         }
         try {
+            const resUserExists = await fetch('../api/userExists', {
+                method: "POST", 
+                headers: {
+                    "Content-Type" : "application/json"
+                },
+                body: JSON.stringify({
+                    email
+                })                
+            })
+
+            const {user} = await resUserExists.json();
+
+            if(user){
+                setError("User with same email id already Exits!");
+                return;
+            }
+
             const res = await fetch('../api/signup', {
                 method: "POST",
                 headers:{
@@ -29,7 +49,8 @@ export default function Page() {
 
             if(res.ok){
                 const form = e.target
-                form.reset()
+                form.reset() 
+                router.push('/login')   
             }
             else{
                 console.log("User registeration failed")
