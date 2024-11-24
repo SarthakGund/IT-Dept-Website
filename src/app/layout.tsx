@@ -6,6 +6,7 @@ import { classnames } from "@/utils";
 import Image from 'next/image'
 import { heading, paragraphbold, subSubheading } from "@/constants";
 import Link from 'next/link'
+import { AuthProvider } from "./Providers";
 
 interface Layoutprops{
   children: React.ReactNode
@@ -40,13 +41,15 @@ const Layout: React.FC<Layoutprops> = (props) => {
             <div className="cursor-pointer hover:text-gray-400"><Link href='/aboutus'>About Us</Link></div>
             <div className="cursor-pointer hover:text-gray-400"><Link href='/achievements'>Achievements</Link></div>
             <div className="cursor-pointer hover:text-gray-400"><Link href='/placements'>Placements</Link></div>
+            <div className="cursor-pointer hover:text-gray-400"><Link href='/placements'>Logout</Link></div>
           </div>
         </div>
         <div className=" flex justify-center bg-black text-white border-y-[2px] border-[#333333]">
       </div>  
+        <AuthProvider>
+          {props.children}
+        </AuthProvider>
 
-
-        {props.children}
       </body>
     </html>
   )
