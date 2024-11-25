@@ -1,18 +1,58 @@
 'use client';
 
 import React, { useState, ChangeEvent, FormEvent } from 'react';
+import { useSession, signIn, signOut } from "next-auth/react";
 import axios from 'axios';
+import Link from 'next/link';
 
 interface FormData {
-    achievementName: string;
+    title: string;
     description: string;
 }
 
 export default function Page() {
+    const { data: session, status } = useSession();
+
     const [formData, setFormData] = useState<FormData>({
-        achievementName: '',
+        title: '',
         description: '',
+        // image: null,
     });
+
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        try {
+            if (!session?.user?.email) {
+                console.error("User is not authenticated");
+                return;
+            }
+
+            // Send a POST request to the API endpoint
+            const response = await fetch('/api/achievements', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    title: formData.title,
+                    description: formData.description,
+                    userId: session.user.email, 
+                }),
+            });
+
+            if (response.ok) {
+                // Handle successful response
+                console.log('Achievement added successfully!');
+                handleReset(); // Reset the form fields
+            } else {
+                // Handle errors
+                console.error(`Failed to add achievement: ${response.statusText}`);
+            }
+        } catch (error) {
+            console.error('Error adding achievement: ', error);
+        }
+    };
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormData({
@@ -21,21 +61,9 @@ export default function Page() {
         });
     };
 
-    const handleSubmit = async (e: FormEvent) => {
-        e.preventDefault();
-        try {
-            const response = await axios.post('http://localhost:3000/api/achievements', formData);
-            alert(`Data saved: ${JSON.stringify(response.data)}`);
-            handleReset();
-        } catch (error) {
-            console.error(error);
-            alert('Failed to save data.');
-        }
-    };
-
     const handleReset = () => {
         setFormData({
-            achievementName: '',
+            title: '',
             description: '',
         });
     };
@@ -77,106 +105,111 @@ export default function Page() {
         },
     ];
 
-
     return (
-        <div>
-            {/* <nav className="bg-slate-700 fixed top-0 w-full">
-        <ul className="flex justify-around">
-          <li><a href="https://www.djsce.ac.in/" target="_blank" className="block text-white text-center py-3 px-4 hover:bg-yellow-700">Home</a></li>
-          <li><a href="https://www.djsce.ac.in/courses.php?course_id=2&sr_no=37#view" target="_blank" className="block text-white text-center py-3 px-4 hover:bg-yellow-700">More Achievements</a></li>
-          <li><a href="https://www.djsce.ac.in/courses.php?course_id=2&sr_no=26#view" target="_blank" className="block text-white text-center py-3 px-4 hover:bg-yellow-700">Faculty</a></li>
-          <li><a href="https://www.djsce.ac.in/placements-hs" target="_blank" className="block text-white text-center py-3 px-4 hover:bg-yellow-700">Placements</a></li>
-        </ul>
-      </nav> */}
+        <div className='bg-black'>
+            {session ? (
+                <div className="flex justify-around">
+                    <p>Welcome, {session.user?.name}!</p>
+                    <button onClick={() => signOut()}>Sign out</button>
+                </div>
+            ) : (
+                <div className="flex justify-around">
+                    <p>Please log in to access the content.</p>
+                    <button>
+                        <Link href='/login'>Sign in</Link> {/* Correct usage of Link in Next.js */}
+                    </button>
+                </div>
+            )}
 
             <h1 className="text-white pt-10 text-center text-5xl mt-10 mb-10 transition duration-300 hover:scale-125">
                 &#11088;Achievements&#11088;
             </h1>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-10 px-12">
-        
-        {achievements.map((achievement, index) => (
-          <div
-            key={index}
-            className="card max-w-xs mx-auto mb-6 p-8 rounded-md shadow-lg bg-gray-800 border-4 border-transparent hover:border-yellow-500 transition-all duration-300 relative group transform hover:scale-110"
-          >
-            <p className="text-lg font-bold text-white mb-2">{achievement.title}</p>
-            
-            <div className="relative overflow-hidden rounded-md">
-              <img
-                src={achievement.image}
-                alt={achievement.title}
-                className="w-full rounded-md transition-transform duration-300 group-hover:scale-125 group-hover:z-10"
-              />
+                {achievements.map((achievement, index) => (
+                    <div
+                        key={index}
+                        className="card max-w-xs mx-auto mb-6 p-8 rounded-md shadow-lg bg-gray-800 border-4 border-transparent hover:border-yellow-500 transition-all duration-300 relative group transform hover:scale-110"
+                    >
+                        <p className="text-lg font-bold text-white mb-2">{achievement.title}</p>
+                        <div className="relative overflow-hidden rounded-md">
+                            <img
+                                src={achievement.image}
+                                alt={achievement.title}
+                                className="w-full rounded-md transition-transform duration-300 group-hover:scale-125 group-hover:z-10"
+                            />
+                        </div>
+                        <div className="text-sm text-white mt-2">{achievement.description}</div>
+                        <div className="absolute inset-0 border-4 opacity-0 group-hover:opacity-100 group-hover:border-opacity-100 transition-all duration-300 rounded-md" />
+                    </div>
+                ))}
             </div>
-            <div className="text-sm text-white mt-2">{achievement.description}</div>
-            
-            <div className="absolute inset-0 border-4 opacity-0 group-hover:opacity-100 group-hover:border-opacity-100 transition-all duration-300 rounded-md" />
-          </div>
-        ))}
-      </div>
 
-
-            {/* Form Section */}
-            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white">
-                <div className="w-full max-w-lg p-6 sm:p-10 bg-gray-950/80 backdrop-blur-md rounded-2xl shadow-lg">
-                    <h1 className="text-4xl font-semibold text-center mb-8 text-gradient bg-gradient-to-r from-purple-400 to-blue-500">
-                        Add Achievement Details
-                    </h1>
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                        <div>
-                            <label
-                                htmlFor="achievementName"
-                                className="block text-sm font-medium text-gray-400 mb-2"
-                            >
-                                Achievement Name
-                            </label>
-                            <input
-                                type="text"
-                                id="achievementName"
-                                name="achievementName"
-                                value={formData.achievementName}
-                                onChange={handleChange}
-                                placeholder="Enter achievement name"
-                                className="w-full p-3 rounded-md bg-gray-900 border border-gray-700 text-white focus:ring-2 focus:ring-purple-500 focus:outline-none transition"
-                                required
-                            />
-                        </div>
-                        <div>
-                            <label
-                                htmlFor="description"
-                                className="block text-sm font-medium text-gray-400 mb-2"
-                            >
-                                Description
-                            </label>
-                            <textarea
-                                id="description"
-                                name="description"
-                                value={formData.description}
-                                onChange={handleChange}
-                                placeholder="Enter description"
-                                className="w-full p-3 rounded-md bg-gray-900 border border-gray-700 text-white focus:ring-2 focus:ring-purple-500 focus:outline-none transition"
-                                rows={4}
-                                required
-                            />
-                        </div>
-                        <div className="flex gap-4">
-                            <button
-                                type="submit"
-                                className="w-full py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white font-semibold rounded-md shadow-md hover:scale-105 transition-transform"
-                            >
-                                Submit
-                            </button>
-                            <button
-                                type="button"
-                                onClick={handleReset}
-                                className="w-full py-3 bg-gray-800 border border-gray-700 text-white font-semibold rounded-md hover:scale-105 hover:border-gray-500 transition-transform"
-                            >
-                                Reset
-                            </button>
-                        </div>
-                    </form>
+            {session ? (
+                <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white">
+                    <div className="w-full max-w-lg p-6 sm:p-10 bg-gray-950/80 backdrop-blur-md rounded-2xl shadow-lg">
+                        <h1 className="text-4xl font-semibold text-center mb-8 text-gradient">
+                            Add Achievement Details
+                        </h1>
+                        <form onSubmit={handleSubmit} className="space-y-6">
+                            <div>
+                                <label
+                                    htmlFor="title"
+                                    className="block text-sm font-medium text-gray-400 mb-2"
+                                >
+                                    Achievement Name
+                                </label>
+                                <input
+                                    type="text"
+                                    id="title"
+                                    name="title"
+                                    value={formData.title}
+                                    onChange={handleChange}
+                                    placeholder="Enter achievement name"
+                                    className="w-full p-3 rounded-md bg-gray-900 border border-gray-700 text-white focus:ring-2 focus:ring-purple-500 focus:outline-none transition"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label
+                                    htmlFor="description"
+                                    className="block text-sm font-medium text-gray-400 mb-2"
+                                >
+                                    Description
+                                </label>
+                                <textarea
+                                    id="description"
+                                    name="description"
+                                    value={formData.description}
+                                    onChange={handleChange}
+                                    placeholder="Enter description"
+                                    className="w-full p-3 rounded-md bg-gray-900 border border-gray-700 text-white focus:ring-2 focus:ring-purple-500 focus:outline-none transition"
+                                    rows={4}
+                                    required
+                                />
+                            </div>
+                            <div className="flex gap-4">
+                                <button
+                                    type="submit"
+                                    className="w-full py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white font-semibold rounded-md shadow-md hover:scale-105 transition-transform"
+                                >
+                                    Submit
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={handleReset}
+                                    className="w-full py-3 bg-gray-800 border border-gray-700 text-white font-semibold rounded-md hover:scale-105 hover:border-gray-500 transition-transform"
+                                >
+                                    Reset
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </div>
+            ) : (
+                <div className="flex justify-around">
+                    {/* Content when not logged in */}
+                </div>
+            )}
         </div>
     );
 }

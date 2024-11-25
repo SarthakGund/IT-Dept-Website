@@ -1,3 +1,5 @@
+'use client'
+
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -5,8 +7,11 @@ import react from "react";
 import { classnames } from "@/utils";
 import Image from 'next/image'
 import { heading, paragraphbold, subSubheading } from "@/constants";
-import Link from 'next/link'
 import { AuthProvider } from "./Providers";
+import { FaPhoneAlt, FaMapMarkerAlt, FaEnvelope, FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
+import { useSession, signIn, signOut } from "next-auth/react";
+import Link from "next/link";  
+
 
 interface Layoutprops{
   children: React.ReactNode
@@ -14,6 +19,7 @@ interface Layoutprops{
 
 
 const Layout: React.FC<Layoutprops> = (props) => {
+  
   return(
     <html>
       <body>
@@ -41,14 +47,113 @@ const Layout: React.FC<Layoutprops> = (props) => {
             <div className="cursor-pointer hover:text-gray-400"><Link href='/aboutus'>About Us</Link></div>
             <div className="cursor-pointer hover:text-gray-400"><Link href='/achievements'>Achievements</Link></div>
             <div className="cursor-pointer hover:text-gray-400"><Link href='/placements'>Placements</Link></div>
-            <div className="cursor-pointer hover:text-gray-400"><Link href='/placements'>Logout</Link></div>
+            {/* <div onClick={()=>{signOut()}} className="cursor-pointer hover:text-gray-400"><Link href='/placements'>Logout</Link></div> */}
           </div>
         </div>
         <div className=" flex justify-center bg-black text-white border-y-[2px] border-[#333333]">
       </div>  
+
+
         <AuthProvider>
+
           {props.children}
         </AuthProvider>
+
+        <footer className="bg-gray-900 text-white py-10">
+      <div className="container mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Contact Form */}
+        <div>
+          <h2 className="text-2xl font-semibold text-blue-400 mb-6">Contact Us</h2>
+          <form className="space-y-4">
+            <div>
+              <label htmlFor="name" className="block text-sm mb-1">Name *</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                className="w-full p-2 rounded bg-gray-800 border border-gray-700 focus:ring-2 focus:ring-blue-400 outline-none"
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="email" className="block text-sm mb-1">Email *</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                className="w-full p-2 rounded bg-gray-800 border border-gray-700 focus:ring-2 focus:ring-blue-400 outline-none"
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="telephone" className="block text-sm mb-1">Telephone *</label>
+              <input
+                type="text"
+                id="telephone"
+                name="telephone"
+                className="w-full p-2 rounded bg-gray-800 border border-gray-700 focus:ring-2 focus:ring-blue-400 outline-none"
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="query" className="block text-sm mb-1">Query / Comments</label>
+              <textarea
+                id="query"
+                name="query"
+                className="w-full p-2 rounded bg-gray-800 border border-gray-700 focus:ring-2 focus:ring-blue-400 outline-none"
+                rows={4}
+              ></textarea>
+            </div>
+            <button
+              type="submit"
+              className="w-full p-3 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 transition-colors"
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+
+        {/* Contact Details and Map */}
+        <div>
+          <h2 className="text-2xl font-semibold text-blue-400 mb-6">Reach Us</h2>
+          <div className="space-y-4">
+            <p className="flex items-center space-x-3">
+              <FaMapMarkerAlt className="text-blue-400" />
+              <span>No.U-15, J.V.P.D. Scheme, Bhaktivedanta Swami Marg, Opp. Cooper Hospital, Vile Parle (West), Mumbai-400 056. India</span>
+            </p>
+            <p className="flex items-center space-x-3">
+              <FaPhoneAlt className="text-blue-400" />
+              <span>42335000 / 42335001</span>
+            </p>
+            <p className="flex items-center space-x-3">
+              <FaEnvelope className="text-blue-400" />
+              <span>info@djsce.ac.in / admin@djsce.ac.in</span>
+            </p>
+          </div>
+
+          {/* Social Media Icons */}
+          <h3 className="text-xl font-semibold text-blue-400 mt-6">Follow Us</h3>
+          <div className="flex space-x-6 mt-3">
+            <a href="#" className="text-2xl text-white hover:text-blue-400 transition-colors"><FaFacebook /></a>
+            <a href="#" className="text-2xl text-white hover:text-blue-400 transition-colors"><FaTwitter /></a>
+            <a href="#" className="text-2xl text-white hover:text-blue-400 transition-colors"><FaInstagram /></a>
+            <a href="#" className="text-2xl text-white hover:text-blue-400 transition-colors"><FaLinkedin /></a>
+          </div>
+
+          {/* Embedded Map */}
+          <div className="mt-6">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.842358251256!2d72.8366080762933!3d19.107042839083406!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c9edddf0a7f3%3A0x85e1b83908e126e0!2sSVKM&#39;s%20Dwarkadas%20J.%20Sanghvi%20College%20of%20Engineering!5e0!3m2!1sen!2sin!4v1695648986032!5m2!1sen!2sin"
+              width="100%"
+              height="250"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+    </footer>
 
       </body>
     </html>

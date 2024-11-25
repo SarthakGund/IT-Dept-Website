@@ -1,5 +1,8 @@
+'use client'
 import React from 'react';
 import FacultyCard from './components/FacultyCard';
+import { useSession, signIn, signOut } from "next-auth/react";
+import Link from "next/link";
 
 interface Faculty {
   name: string;
@@ -43,8 +46,25 @@ const facultyList: Faculty[] = [
 ];
 
 const Home: React.FC = () => {
+  const { data: session, status } = useSession();
+
   return (
     <div>
+
+      {session ? (
+        <div className="flex justify-around">
+          <p>Welcome, {session.user?.name}!</p>
+          <button onClick={() => signOut()}>Sign out</button>
+        </div>
+      ) : (
+        <div className="flex justify-around">
+          <p>Please log in to access the content.</p>
+          <button>
+            <Link href='/login'>Sign in</Link> {/* Correct usage of Link in Next.js */}
+          </button>
+        </div>
+      )}
+
       <div className="bg-black text-white flex items-center flex-col">
         <div className="bg-black text-white hero-section h-[100vh] py-[210px] w-[96%]">
           <div className="hero-heading px-[50px] w-[60%] leading-relaxed font-bold 3xl:text-8xl 2xl:text-7xl xl:text-6xl lg:text-5xl md:text-4xl text-4xl">
@@ -60,7 +80,7 @@ const Home: React.FC = () => {
         <div className="flex justify-center mt-[50px]">
           <div className="faculty-sec flex flex-wrap justify-evenly gap-[40px] w-[96%]">
             {facultyList.map((faculty, index) => (
-              <FacultyCard 
+              <FacultyCard
                 key={index}
                 image={faculty.image}
                 name={faculty.name}
@@ -73,6 +93,6 @@ const Home: React.FC = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Home;

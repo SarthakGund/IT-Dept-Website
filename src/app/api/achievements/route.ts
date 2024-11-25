@@ -1,35 +1,32 @@
-import { NextResponse } from 'next/server';
-import Achievement from '../../../../models/Achievement';
+import { NextResponse } from "next/server";
+// import Achievement from "@/models/Achievement";
+import Achievement from "../../../../models/Achievement";
+import User from "../../../../models/user";
+import { connectMongoDB } from "../../../../lib/mongodb";
 
-// Handle GET requests
-export async function GET() {
-  try {
-    const achievements = await Achievement.find();
-    return NextResponse.json(achievements, { status: 200 });
-  } catch (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
-  }
-}
-
-// Handle POST requests
+// In your /api/achievements POST handler
 export async function POST(req: Request) {
-  try {
-    const { title, description }: { title: string; description?: string } = await req.json();
-    
-    // Check for missing title or description (optional)
-    if (!title) {
-      return NextResponse.json({ error: 'Title is required' }, { status: 400 });
+    try {
+      const { title, description, userId } = await req.json();
+  
+      // Look up user by email to get ObjectId
+      const user = await User.findOne({ email: userId }); // userId here is the email
+      if (!user) {
+        return NextResponse.json({ message: "User not found" }, { status: 404 });
+      }
+  
+      const newAchievement = new Achievement({
+        title,
+        description,
+        userId: user._id,  // Use the ObjectId of the user
+      });
+  
+      await newAchievement.save();
+  
+      return NextResponse.json(newAchievement, { status: 201 });
+    } catch (error) {
+      console.log("Error:", error);
+      return NextResponse.json({ message: "An error occurred while adding." }, { status: 500 });
     }
-
-    const newAchievement = new Achievement({
-      title,
-      description,
-    });
-
-    const savedAchievement = await newAchievement.save();
-    return NextResponse.json(savedAchievement, { status: 201 });
-  } catch (error) {
-    console.log(error)
-    return NextResponse.json({ error: error.message }, { status: 500 });
   }
-}
+  

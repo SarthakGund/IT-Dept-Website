@@ -1,19 +1,27 @@
-import mongoose, { Document, Model, Schema } from "mongoose";
+import mongoose from "mongoose";
 
-// Define an interface for the Achievement document
-export interface IAchievement extends Document {
-  achievementName: string;
-  description: string;
-}
+const achieveSchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: [true, "title is required"],
+    },
+    description: {
+      type: String,
+      required: [true, "description is required"],
+    },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User", 
+      required: true,
+    },
+    image: {
+      type: String,
+      required: false, 
+    },
+  },
+  { timestamps: true } 
+);
 
-// Define the schema for the Achievement model
-const AchievementSchema: Schema = new mongoose.Schema({
-  achievementName: { type: String, required: true },
-  description: { type: String, required: true },
-});
-
-// Create or retrieve the Achievement model
-const Achievement: Model<IAchievement> =
-  mongoose.models.Achievement || mongoose.model<IAchievement>("Achievement", AchievementSchema);
-
+const Achievement = mongoose.models.Achievement || mongoose.model("Achievement", achieveSchema);
 export default Achievement;
