@@ -1,114 +1,109 @@
- return (
-    <div>
-            {/* <nav className="bg-slate-700 fixed top-0 w-full">
-        <ul className="flex justify-around">
-            <li><a href="https://www.djsce.ac.in/" target="_blank" className="block text-white text-center py-3 px-4 hover:bg-yellow-700">Home</a></li>
-            <li><a href="https://www.djsce.ac.in/courses.php?course_id=2&sr_no=37#view" target="_blank" className="block text-white text-center py-3 px-4 hover:bg-yellow-700">More Achievements</a></li>
-            <li><a href="https://www.djsce.ac.in/courses.php?course_id=2&sr_no=26#view" target="_blank" className="block text-white text-center py-3 px-4 hover:bg-yellow-700">Faculty</a></li>
-            <li><a href="https://www.djsce.ac.in/placements-hs" target="_blank" className="block text-white text-center py-3 px-4 hover:bg-yellow-700">Placements</a></li>
-        </ul>
-    </nav> */}
+import React, { useEffect, useRef, useState } from "react";
 
-    <h1 className="text-white pt-10 text-center text-5xl mt-10 mb-10 transition duration-300 hover:scale-125">&#11088;Achievements&#11088;</h1>
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-10 ml-12">
-        <div className="max-w-xs mx-auto  border-solid border-4 border-white p-8 rounded-md transition duration-300 hover:border-opacity-10">
-            <p className="text-lg font-bold text-white mb-2 transition duration-300 hover:scale-105">WINNER AT THE UNESCO INDIA AFRICA HACKATHON 2022(23rd-24th November 2022)</p>
-            <img src="/assets/africa-transformed-without-msg.jpeg" className="w-full transition duration-300 hover:scale-110"/>
-            <div className="text-sm text-white mt-2 transition duration-300 hover:scale-105">At the Gautam Buddha University in Uttar Pradesh organised by ministry of education and MOE's innovation cell, government of India</div>
-        </div>
+const AboutUs = () => {
+  const trackRef = useRef(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-        <div className="max-w-xs mx-auto border-solid border-4 border-white p-8 rounded-md transition duration-300 hover:border-opacity-10">
-            <p className="text-lg font-bold text-white mb-2 mt-10 transition duration-300 hover:scale-105">WINNERS OF SMART INDIA HACKATHON</p>
-            <img src="/assets/SIH-winner.png" className="w-full transition duration-300 hover:scale-110"/>
-            <p className="text-sm text-white mt-2 transition duration-300 hover:scale-105">TY students bagged First Position in Smart India Hackathon organised by DRDO</p>
-        </div>
+  const images = [
+    "https://www.djsce.ac.in/home_banners/18_HPHeader_AI-Bhargav-Desai.jpg",
+    "https://www.djsce.ac.in/home_banners/14_HPHeader_14_HPHeader_vice%20chancellors%20challenge_first%20Prize_Rakesh%20Patel.jpg",
+    "https://www.djsce.ac.in/home_banners/Ranbir%20Allahabadia.jpg",
+    "https://www.djsce.ac.in/home_banners/Frame%20183.png",
+    "https://www.djsce.ac.in/home_banners/Frame%20184.png",
+  ];
 
-        <div className="max-w-xs mx-auto border-solid border-4 border-white p-8 rounded-md transition duration-300 hover:border-opacity-10">
-            <p className="text-lg font-bold text-white mb-2 mt-10 transition duration-300 hover:scale-105">First prize in Blockchain Domains-Clash Of Codes 23</p>
-            <img src="/assets/blockchain-winners.png" className="w-full transition duration-300 hover:scale-110"/>
-            <p className="text-sm text-white mt-2 transition duration-300 hover:scale-105">Clash of Codes 23 presented by DJS IETE X DJS Trinity</p>
-        </div>
+  const totalItems = images.length;
 
-        <div className="max-w-xs mx-auto border-solid border-4 border-white p-8 rounded-md transition duration-300 hover:border-opacity-10">
-            <p className="text-lg font-bold text-white mb-2 mt-10 transition duration-300 hover:scale-105">2nd runner Up at LINES OF CODE 5.0</p>
-            <img src="/assets/LOC 5.0.png" className="w-full transition duration-300 hover:scale-110"/>
-            <p className="text-sm text-white mt-2 transition duration-300 hover:scale-105">TY IT students were 2nd runner Up at LOC 5.0</p>
-            <p className="text-sm text-white mt-2 transition duration-300 hover:scale-105">Won 20 thousand prize</p>
-        </div>
+  // Clone images for infinite scrolling
+  const clonedImages = [...images, ...images, ...images];
 
-        <div className="max-w-xs mx-auto border-solid border-4 border-white p-8 rounded-md transition duration-300 hover:border-opacity-10">
-            <p className="text-lg font-bold text-white mb-2 mt-10 transition duration-300 hover:scale-105">1st prize in Data Analytics domain</p>
-            <img src="/assets/datahack1.0.png" className="w-full transition duration-300 hover:scale-110"/>
-            <p className="text-sm text-white mt-2 transition duration-300 hover:scale-105">TY students won 1st prize in Data Analytics domain in DATAHACK 1.0</p>
-        </div>
+  const itemWidth = 300; // Adjust based on image width
+  const spacing = 24; // Adjust for margin
+  const totalWidth = clonedImages.length * (itemWidth + spacing);
 
-        <div className="max-w-xs mx-auto border-solid border-4 border-white p-8 rounded-md transition duration-300 hover:border-opacity-10">
-            <p className="text-lg font-bold text-white mb-2 mt-10 transition duration-300 hover:scale-105">TY students bagged first prize at BITNBUILD</p>
-            <img src="/assets/BITNBUILD.png" className="w-full transition duration-300 hover:scale-110"/>
-            <p className="text-sm text-white mt-2 transition duration-300 hover:scale-105">Google Developer Student Clubs CRCE X UMIT</p>
-        </div>
-        
-    </div>
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white">
-      <div className="w-full max-w-lg p-6 sm:p-10 bg-gray-950/80 backdrop-blur-md rounded-2xl shadow-lg">
-        <h1 className="text-4xl font-semibold text-center mb-8 text-gradient bg-gradient-to-r from-purple-400 to-blue-500">
-          Add Achievement Details
-        </h1>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label
-              htmlFor="achievementName"
-              className="block text-sm font-medium text-gray-400 mb-2"
-            >
-              Achievement Name
-            </label>
-            <input
-              type="text"
-              id="achievementName"
-              name="achievementName"
-              value={formData.achievementName}
-              onChange={handleChange}
-              placeholder="Enter achievement name"
-              className="w-full p-3 rounded-md bg-gray-900 border border-gray-700 text-white focus:ring-2 focus:ring-purple-500 focus:outline-none transition"
-              required
+  useEffect(() => {
+    // Initialize carousel position
+    const track = trackRef.current;
+    const initialIndex = totalItems; // Start at the first real set
+    setCurrentIndex(initialIndex);
+    track.style.transform = translateX(-${initialIndex * (itemWidth + spacing)}px);
+  }, [totalItems]);
+
+  const updateCarousel = (index) => {
+    const track = trackRef.current;
+    const translateX = -index * (itemWidth + spacing);
+    track.style.transition = "transform 0.5s ease-in-out";
+    track.style.transform = translateX(${translateX}px);
+  };
+
+  const handleNext = () => {
+    const track = trackRef.current;
+    const nextIndex = currentIndex + 1;
+    setCurrentIndex(nextIndex);
+    updateCarousel(nextIndex);
+
+    if (nextIndex === totalItems * 2) {
+      // Reset to the first real set after animation
+      setTimeout(() => {
+        track.style.transition = "none";
+        setCurrentIndex(totalItems);
+        track.style.transform = translateX(-${totalItems * (itemWidth + spacing)}px);
+      }, 500);
+    }
+  };
+
+  const handlePrev = () => {
+    const track = trackRef.current;
+    const prevIndex = currentIndex - 1;
+    setCurrentIndex(prevIndex);
+    updateCarousel(prevIndex);
+
+    if (prevIndex === totalItems - 1) {
+      // Reset to the last real set after animation
+      setTimeout(() => {
+        track.style.transition = "none";
+        setCurrentIndex(totalItems * 2 - 1);
+        track.style.transform = translateX(-${(totalItems * 2 - 1) * (itemWidth + spacing)}px);
+      }, 500);
+    }
+  };
+
+  return (
+    <div className="py-12 px-6 md:px-12">
+      <h2 className="text-2xl font-bold text-center mb-6">Gallery</h2>
+      <div className="relative flex items-center justify-center overflow-hidden">
+        {/* Carousel Track */}
+        <div
+          ref={trackRef}
+          className="flex transition-transform"
+          style={{ width: totalWidth }}
+        >
+          {clonedImages.map((src, index) => (
+            <img
+              key={index}
+              src={src}
+              alt={Event ${index}}
+              className="rounded-lg shadow-lg mx-2"
+              style={{ width: itemWidth }}
             />
-          </div>
-          <div>
-            <label
-              htmlFor="description"
-              className="block text-sm font-medium text-gray-400 mb-2"
-            >
-              Description
-            </label>
-            <textarea
-              id="description"
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              placeholder="Enter description"
-              className="w-full p-3 rounded-md bg-gray-900 border border-gray-700 text-white focus:ring-2 focus:ring-purple-500 focus:outline-none transition"
-              rows="4"
-              required
-            />
-          </div>
-          <div className="flex gap-4">
-            <button
-              type="submit"
-              className="w-full py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white font-semibold rounded-md shadow-md hover:scale-105 transition-transform"
-            >
-              Submit
-            </button>
-            <button
-              type="button"
-              onClick={handleReset}
-              className="w-full py-3 bg-gray-800 border border-gray-700 text-white font-semibold rounded-md hover:scale-105 hover:border-gray-500 transition-transform"
-            >
-              Reset
-            </button>
-          </div>
-        </form>
+          ))}
+        </div>
+        {/* Controls */}
+        <button
+          onClick={handlePrev}
+          className="absolute left-2 bg-white text-black p-2 rounded-full shadow-md"
+        >
+          ❮
+        </button>
+        <button
+          onClick={handleNext}
+          className="absolute right-2 bg-white text-black p-2 rounded-full shadow-md"
+        >
+          ❯
+        </button>
       </div>
     </div>
-    </div>
-  )
-}
+  );
+};
+
+export default AboutUs;

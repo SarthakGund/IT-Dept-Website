@@ -26,22 +26,17 @@ const facultyList: Faculty[] = [
   },
   {
     name: "Dr. (Mrs.) Monika Mangla",
-    position: "Associate Professor",
+    position: "Assistant Professor",
     joined: "11.01.2022",
     image: "/assets/fac-pic.jpeg"
   },
   {
-    name: "Dr. (Mrs.) Monika Mangla",
+    name: "Prof.(Mrs.) Sharvari Partil",
     position: "Associate Professor",
     joined: "11.01.2022",
     image: "/assets/fac-pic.jpeg"
   },
-  {
-    name: "Dr. (Mrs.) Monika Mangla",
-    position: "Associate Professor",
-    joined: "11.01.2022",
-    image: "/assets/fac-pic.jpeg"
-  },
+  
   // Add more faculty members as needed
 ];
 
@@ -49,21 +44,32 @@ const Home: React.FC = () => {
   const { data: session, status } = useSession();
 
   return (
-    <div>
-
-      {session ? (
-        <div className="flex justify-around">
-          <p>Welcome, {session.user?.name}!</p>
-          <button onClick={() => signOut()}>Sign out</button>
-        </div>
-      ) : (
-        <div className="flex justify-around">
-          <p>Please log in to access the content.</p>
-          <button>
-            <Link href='/login'>Sign in</Link> {/* Correct usage of Link in Next.js */}
-          </button>
-        </div>
-      )}
+    <div className='bg-black'>
+    
+            {session ? (
+                <div className="flex flex-row items-center justify-between gap-0 mx-[30px] p-2 rounded-lg text-white">
+                    <p className="text-lg font-medium">Welcome, {session.user?.email}!</p>
+                    <button onClick={() => signOut()} className="mx-[22px] inline-flex h-12 animate-shimmer items-center justify-center rounded-md border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-slate-400 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50">
+                        Sign out
+                    </button>
+                </div>
+            ) : (
+                <div className="flex flex-row items-center justify-between gap-0 mx-[30px] p-2 rounded-lg text-white">
+                    <p className="text-lg font-medium">Please log in to access the content.</p>
+                    <div className="gap-x-[30px]">
+                        <Link href="/login">
+                            <button className="mx-[22px] inline-flex h-12 animate-shimmer items-center justify-center rounded-md border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-slate-400 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50">
+                                Login
+                            </button>
+                        </Link>
+                        <Link href="/signup">
+                            <button className="mx-[22px] inline-flex h-12 animate-shimmer items-center justify-center rounded-md border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-slate-400 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50">
+                                Sign up
+                            </button>
+                        </Link>
+                    </div>
+                </div>
+            )}
 
       <div className="bg-black text-white flex items-center flex-col">
         <div className="bg-black text-white hero-section h-[100vh] py-[210px] w-[96%]">

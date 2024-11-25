@@ -59,7 +59,7 @@ const Layout: React.FC<Layoutprops> = (props) => {
           {props.children}
         </AuthProvider>
 
-        <footer className="bg-gray-900 text-white py-10">
+        <footer className="bg-gray-900 text-white py-10 ">
       <div className="container mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Contact Form */}
         <div>
@@ -104,10 +104,8 @@ const Layout: React.FC<Layoutprops> = (props) => {
                 rows={4}
               ></textarea>
             </div>
-            <button
-              type="submit"
-              className="w-full p-3 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 transition-colors"
-            >
+
+            <button type="submit" className=" w-[200px] mx-[22px] inline-flex h-12 animate-shimmer items-center justify-center rounded-md border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-slate-400 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50">
               Submit
             </button>
           </form>
@@ -134,10 +132,10 @@ const Layout: React.FC<Layoutprops> = (props) => {
           {/* Social Media Icons */}
           <h3 className="text-xl font-semibold text-blue-400 mt-6">Follow Us</h3>
           <div className="flex space-x-6 mt-3">
-            <a href="#" className="text-2xl text-white hover:text-blue-400 transition-colors"><FaFacebook /></a>
-            <a href="#" className="text-2xl text-white hover:text-blue-400 transition-colors"><FaTwitter /></a>
-            <a href="#" className="text-2xl text-white hover:text-blue-400 transition-colors"><FaInstagram /></a>
-            <a href="#" className="text-2xl text-white hover:text-blue-400 transition-colors"><FaLinkedin /></a>
+            <a href="https://www.facebook.com/djsce.official/" className="text-2xl text-white hover:text-blue-400 transition-colors" target="_blank"><FaFacebook /></a>
+            <a href="https://x.com/djsce_official" className="text-2xl text-white hover:text-blue-400 transition-colors" target="_blank"><FaTwitter /></a>
+            <a href="https://www.instagram.com/djsce.official/" className="text-2xl text-white hover:text-blue-400 transition-colors" target="_blank"><FaInstagram /></a>
+            <a href="https://www.linkedin.com/school/djsce/posts/?feedView=all" className="text-2xl text-white hover:text-blue-400 transition-colors" target="_blank"><FaLinkedin /></a>
           </div>
 
           {/* Embedded Map */}

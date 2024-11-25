@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function page() {
   return (
-    <div>
+    <div className='bg-black'>
              <div className="container mx-auto mt-10">
            <h1 className="text-4xl font-bold mb-8 text-white">Placements Details</h1>
           
