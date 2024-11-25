@@ -23,7 +23,7 @@ const Layout: React.FC<Layoutprops> = (props) => {
   return(
     <html>
       <body>
-        <nav className={classnames("flex h-[80px] justify-center bg-black text-white",)}>
+        <nav className={classnames("flex h-[80px] justify-center bg-black text-white ")}>
           <div className=" flex w-[94%] justify-between py-[5px]">
             <div className={classnames("flex items-center",)}>
               <Image src="/assets/djsce_logo.png" alt="" height={70} width={70}></Image>

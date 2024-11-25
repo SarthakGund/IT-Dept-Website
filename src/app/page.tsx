@@ -16,25 +16,25 @@ const facultyList: Faculty[] = [
     name: "Dr. (Mrs.) Vinaya M. Sawant",
     position: "Head of the Department",
     joined: "6.8.2003",
-    image: "/assets/fac-pic.jpeg"
+    image: "/assets/Vinayamaam.jpg"
   },
   {
     name: "Dr. Abhijit R. Joshi",
     position: "Professor",
     joined: "13.4.2004",
-    image: "/assets/fac-pic.jpeg"
+    image: "/assets/abhijitsir.jpg"
   },
   {
     name: "Dr. (Mrs.) Monika Mangla",
     position: "Assistant Professor",
     joined: "11.01.2022",
-    image: "/assets/fac-pic.jpeg"
+    image: "/assets/monikamaamjpg.jpg"
   },
   {
     name: "Prof.(Mrs.) Sharvari Partil",
     position: "Associate Professor",
     joined: "11.01.2022",
-    image: "/assets/fac-pic.jpeg"
+    image: "/assets/sharvarimaam.jpg"
   },
   
   // Add more faculty members as needed
